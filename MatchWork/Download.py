@@ -7,16 +7,15 @@ import zipfile
 FileData = open('test_data.json', encoding='utf-8')
 data = json.loads(FileData.read())
 
-dir_name = "..\DataSet"
+dir_name = "DataSet"
 os.mkdir(dir_name)
 os.chdir(dir_name)
-
 for key in data:
     cases = data[key]['cases']
     user_id = str(data[key]['user_id'])
     print(user_id)
     print(cases)
-    dir_name = "SampleData" + "/" + user_id
+    dir_name =user_id
     if not os.path.exists(dir_name):
         os.makedirs(dir_name)
     # print(os.getcwd())
@@ -25,7 +24,7 @@ for key in data:
         if case["final_score"] != 100:
             continue;
         print(case["case_id"], case["case_type"]);
-        temp_dir = dir_name + "/" + case["case_id"] + case["case_type"]
+        temp_dir =case["case_id"] + case["case_type"]
         if os.path.exists(temp_dir):
             continue
         os.makedirs(temp_dir)
@@ -42,7 +41,7 @@ for key in data:
             time.sleep(0.35)
 
         extension = ".zip"
-
+        temp_dir=os.path.realpath(os.getcwd())
         for item in os.listdir(temp_dir):
             os.chdir(temp_dir)
             if item.endswith(extension):
@@ -63,3 +62,4 @@ for key in data:
                         zip_ref.close();
                         os.remove(file_Name)
                 os.remove(file_name)
+        os.chdir(os.path.abspath(os.path.join(os.path.dirname(os.path.realpath(os.getcwd())), os.path.pardir)))
